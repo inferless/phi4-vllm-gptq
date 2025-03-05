@@ -1,19 +1,11 @@
-import os
-from huggingface_hub import hf_hub_download
+from huggingface_hub import snapshot_download
 from vllm import LLM, SamplingParams
-
 
 class InferlessPythonModel:
     def initialize(self):        
-        nfs_volume = os.getenv("NFS_VOLUME")
-        if os.path.exists(nfs_volume + "/tinyllama-1.1b-chat-v1.0.Q4_0.gguf") == False :
-            cache_file = hf_hub_download(
-                                repo_id="TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF",
-                                filename="tinyllama-1.1b-chat-v1.0.Q4_0.gguf",
-                                local_dir=nfs_volume)
-        self.llm = LLM(model=f"{nfs_volume}/tinyllama-1.1b-chat-v1.0.Q4_0.gguf",
-                  tokenizer="TinyLlama/TinyLlama-1.1B-Chat-v1.0",
-                  gpu_memory_utilization=0.95)
+        model_id = "unsloth/phi-4-GGUF"
+        model_path = snapshot_download(repo_id=model_id,allow_patterns=["phi-4-Q4_K_M.gguf"])
+        self.llm = LLM(model=f"{model_path}/phi-4-Q4_K_M.gguf",tokenizer="microsoft/phi-4")
         
     def infer(self, inputs):
         prompt = inputs["prompt"]
@@ -24,14 +16,23 @@ class InferlessPythonModel:
         repetition_penalty = inputs.get("repetition_penalty",1.18)
         max_tokens = inputs.get("max_tokens",256)
         
-        CHAT_TEMPLATE = "<|system|>\n{system_prompt}</s>\n<|user|>\n{prompt}</s>\n<|assistant|>\n"  # noqa: E501
+        sampling_params = SamplingParams(temperature=temperature,top_p=top_p,
+                                         repetition_penalty=repetition_penalty,
+                                         top_k=top_k,max_tokens=max_tokens
+                                        )
+        conversation = [
+           {
+              "role": "system",
+              "content": system_prompt
+           },
+           {
+              "role": "user",
+              "content": prompt
+           }
+        ]
+        outputs = llm.chat(conversation, sampling_params)
+        result_output = [output.outputs[0].text for output in outputs]
+        return {"generated_text":result_output[0]}
 
-        prompts = [CHAT_TEMPLATE.format(system_prompt=system_prompt, prompt=prompt)]
-        sampling_params = SamplingParams(temperature=temperature,top_p=top_p,repetition_penalty=repetition_penalty,
-                                 top_k=top_k,max_tokens=max_tokens)
-        result = self.llm.generate(prompts, sampling_params)
-        result_output = [output.outputs[0].text for output in result]
-
-        return {'result': result_output[0]}        
     def finalize(self):
         self.llm = None
