@@ -30,7 +30,7 @@ class InferlessPythonModel:
               "content": prompt
            }
         ]
-        outputs = llm.chat(conversation, sampling_params)
+        outputs = self.llm.chat(conversation, sampling_params)
         result_output = [output.outputs[0].text for output in outputs]
         return {"generated_text":result_output[0]}
 
