@@ -10,14 +10,12 @@ class InferlessPythonModel:
     def infer(self, inputs):
         prompt = inputs["prompt"]
         system_prompt = inputs.get("system_prompt","You are a friendly bot.")
-        temperature = inputs.get("temperature",0.7)
-        top_p = inputs.get("top_p",0.1)
-        top_k = int(inputs.get("top_k",40))
-        repetition_penalty = inputs.get("repetition_penalty",1.18)
+        temperature = inputs.get("temperature",1.0)
+        top_p = inputs.get("top_p",1.0)
+        top_k = int(inputs.get("top_k",-1))
         max_tokens = inputs.get("max_tokens",256)
         
         sampling_params = SamplingParams(temperature=temperature,top_p=top_p,
-                                         repetition_penalty=repetition_penalty,
                                          top_k=top_k,max_tokens=max_tokens
                                         )
         conversation = [
