@@ -3,13 +3,13 @@ INPUT_SCHEMA = {
         'datatype': 'STRING',
         'required': True,
         'shape': [1],
-        'example': ["What is deep learning?"]
+        'example': ["hello i'm not sad with your service"]
     },
     "system_prompt": {
         'datatype': 'STRING',
         'required': False,
         'shape': [1],
-        'example': ["You are a friendly bot."]
+        'example': ["you are sentiment analyzer, you should say yes or no, and response in json"]
     },
     "temperature": {
         'datatype': 'FP32',
