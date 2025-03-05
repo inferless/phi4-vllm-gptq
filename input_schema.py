@@ -15,7 +15,7 @@ INPUT_SCHEMA = {
         'datatype': 'FP32',
         'required': False,
         'shape': [1],
-        'example': [0.7]
+        'example': [0.1]
     },
     "top_p": {
         'datatype': 'FP32',
@@ -27,7 +27,7 @@ INPUT_SCHEMA = {
         'datatype': 'INT16',
         'required': False,
         'shape': [1],
-        'example': [512]
+        'example': [128]
     },
     "top_k":{
         'datatype': 'INT8',
