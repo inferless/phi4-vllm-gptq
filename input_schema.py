@@ -23,12 +23,6 @@ INPUT_SCHEMA = {
         'shape': [1],
         'example': [0.1]
     },
-    "repetition_penalty": {
-        'datatype': 'FP32',
-        'required': False,
-        'shape': [1],
-        'example': [1.18]
-    },
     "max_tokens": {
         'datatype': 'INT16',
         'required': False,
