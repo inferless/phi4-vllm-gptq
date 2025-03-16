@@ -1,4 +1,4 @@
-# Deploying Phi-4-vllm-gptq Models with vLLM on Inferless
+# Deploying Phi-4-GPTQ Models with vLLM on Inferless
 This repository provides a template for seamlessly deploying GGUF models using [vLLM](https://github.com/vllm-project/vllm) on the Inferless platform.
 
 ### Fork the Repository
