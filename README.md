@@ -1,5 +1,7 @@
 # Deploying Phi-4-GPTQ Models with vLLM on Inferless
 
+PHI‑4 is Microsoft’s latest open‑source large language model, designed for high‑quality text generation across diverse tasks. It leverages a decoder‑only transformer architecture with advanced pre‑training techniques, delivers strong performance on benchmarks, and is aimed at applications ranging from chatbots to content creation.
+
 This repository provides a template for seamlessly deploying GPTQ models using [vLLM](https://github.com/vllm-project/vllm) on the Inferless platform.
 
 ## TL;DR:
